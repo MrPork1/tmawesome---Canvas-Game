@@ -30,6 +30,18 @@ monsterImage.onload = function () {
 };
 monsterImage.src = "images/monster.png";
 
+var scenoryReady = false;
+let sImage1 = new Image();
+let sImage2 = new Image();
+let sImage3 = new Image();
+sImage1.onload = function() {
+    scenoryReady = true;
+}
+sImage1.src = "images/tree1.png";
+sImage2.src = "images/tree2.png";
+sImage3.src = "images/tree3.png";
+
+
 // Game objects
 var hero = {
     speed: 256, // movement in pixels per second
@@ -41,7 +53,26 @@ var monster = {
     x: 0,
     y: 0
 };
+
+let tree1 = {
+    x: 300, y: 300
+};
+let tree2 = {
+    x: 25, y: 45
+};
+let tree3 = {
+    x: 150, y: 150
+};
+
+let scenoryArrayForCollision = [];
+
+scenoryArrayForCollision.push(tree1);
+scenoryArrayForCollision.push(tree2);
+scenoryArrayForCollision.push(tree3);
+
 var monstersCaught = 0;
+
+
 
 // Handle keyboard controls
 var keysDown = {}; //object were we properties when keys go down
@@ -62,19 +93,20 @@ addEventListener("keyup", function (e) {
 
 // Update game objects
 var update = function (modifier) {
-    if (38 in keysDown && hero.y > 32+4) { //  holding up key
+    if (38 in keysDown && hero.y > 2) { //  holding up key
         hero.y -= hero.speed * modifier;
     }
-    if (40 in keysDown && hero.y < canvas.height - (64 + 6)) { //  holding down key
+    if (40 in keysDown && hero.y < canvas.height - 16 - 2) { //  holding down key
         hero.y += hero.speed * modifier;
     }
-    if (37 in keysDown && hero.x > (32+4)) { // holding left key
+    if (37 in keysDown && hero.x > 2) { // holding left key
         hero.x -= hero.speed * modifier;
     }
-    if (39 in keysDown && hero.x < canvas.width - (64 + 6)) { // holding right key
+    if (39 in keysDown && hero.x < canvas.width - 16 - 2) { // holding right key
         hero.x += hero.speed * modifier;
     }
     
+    //console.log(hero.x + "," + hero.y);
 
         // Are they touching?
         if (
@@ -86,10 +118,14 @@ var update = function (modifier) {
             ++monstersCaught;       // keep track of our “score”
             reset();       // start a new cycle
         }
+
+    for(let i = 0; i < scenoryArrayForCollision.length; i++) {
+        if (hero.x <= (scenoryArrayForCollision[i].x + 16) && scenoryArrayForCollision[i].x <= (hero.x + 16) &&
+        hero.y <= (scenoryArrayForCollision[i].y + 16) && scenoryArrayForCollision[i].y <= (hero.y + 16)) {
+            console.log("collision!");
+        }
+    }
 };
-
-
-
 
 //=============================================================
 
@@ -106,11 +142,18 @@ var render = function () {
         ctx.drawImage(monsterImage, monster.x, monster.y);
     }
 
+    if (scenoryReady) {
+        ctx.drawImage(sImage1, tree1.x, tree1.y);
+        ctx.drawImage(sImage2, tree2.x, tree2.y);
+        ctx.drawImage(sImage3, tree3.x, tree3.y);
+    }
+
+
     ctx.fillStyle = "rgb(250, 250, 250)";
-    ctx.font = "24px Helvetica";
+    ctx.font = "16px Helvetica";
     ctx.textAlign = "left";
     ctx.textBaseline = "top";
-    ctx.fillText("Goblins caught: " + monstersCaught, 32, 32);
+    ctx.fillText("Goblins caught: " + monstersCaught, 4, 4);
 }
 
 //Reset the game when the player catches a monster or game starts
@@ -142,6 +185,3 @@ var main = function () {
 var then = Date.now();
 reset();
 main();  // call the main game loop.
-
-
-
