@@ -1,0 +1,36 @@
+body{
+    background-image: url(images/wallpaper.jpg);
+    font-family: "Lucida Console", Monaco, monospace;
+    font-size: 21px;
+    letter-spacing: 2px;
+    word-spacing: 2px;
+    color: #000000;
+    font-weight: bold;
+    text-decoration: none;
+    font-style: normal;
+    font-variant: normal;
+    text-transform: none;
+}
+
+H1 { text-align: center }
+H2 {
+     text-align: center;
+     font-size: 18px;
+    }
+canvas { 
+	position: absolute; 
+	width: 512px; 
+	height: 480px; 
+	left: 50%; 
+	top: 50%; 
+	margin-left: -256px; 
+	margin-top: -240px; 
+} 
+.credits{
+    position: absolute;
+    color: lightslategray;
+    left: 35%; 
+    text-align: center;
+    top: 800px;
+    font-size: 10px;
+}

@@ -152,7 +152,8 @@ var update = function (modifier) {
 //=============================================================
 
 var render = function () {
-    ctx.textBaseline = "top";  ctx.fillStyle = "rgb(250, 250, 250)";
+    ctx.textBaseline = "top";  
+    ctx.fillStyle = "rgb(250, 250, 250)";
     ctx.font = "16px Helvetica";
     ctx.textAlign = "left";
     soundBack.play();
