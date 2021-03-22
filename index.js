@@ -30,6 +30,18 @@ monsterImage.onload = function () {
 };
 monsterImage.src = "images/monster.png";
 
+var healthReady = false;
+var noHealth = new Image();
+var lowHealth = new Image();
+var healthy = new Image();
+noHealth.onload = function () {
+    healthReady = true;
+};
+noHealth.src = "images/nohealth.png";
+lowHealth.src = "images/somehealth.png";
+healthy.src ="images/healthy.png";
+
+
 var scenoryReady = false;
 let sImage1 = new Image();
 let sImage2 = new Image();
@@ -44,7 +56,7 @@ sImage3.src = "images/tree3.png";
 
 // Game objects
 var hero = {
-    speed: 256, // movement in pixels per second
+    speed: 256, // movement in pixels per seco
     x: 0,  // where on the canvas are they?
     y: 0  // where on the canvas are they?
 };
@@ -110,26 +122,35 @@ var update = function (modifier) {
 
         // Are they touching?
         if (
-            hero.x <= (monster.x + 32)
-            && monster.x <= (hero.x + 32)
-            && hero.y <= (monster.y + 32)
-            && monster.y <= (hero.y + 32)
+            hero.x <= (monster.x + 16)
+            && monster.x <= (hero.x + 16)
+            && hero.y <= (monster.y + 16)
+            && monster.y <= (hero.y + 16)
         ) {
             ++monstersCaught;       // keep track of our “score”
             reset();       // start a new cycle
         }
 
     for(let i = 0; i < scenoryArrayForCollision.length; i++) {
-        if (hero.x <= (scenoryArrayForCollision[i].x + 16) && scenoryArrayForCollision[i].x <= (hero.x + 16) &&
-        hero.y <= (scenoryArrayForCollision[i].y + 16) && scenoryArrayForCollision[i].y <= (hero.y + 16)) {
+        if (hero.x <= (scenoryArrayForCollision[i].x +10) && scenoryArrayForCollision[i].x <= (hero.x + 10) &&
+        hero.y <= (scenoryArrayForCollision[i].y +10) && scenoryArrayForCollision[i].y <= (hero.y +10)) {
             console.log("collision!");
+            --monstersCaught;
+        reset();
+
+            
         }
     }
 };
 
+
 //=============================================================
 
 var render = function () {
+    ctx.textBaseline = "top";  ctx.fillStyle = "rgb(250, 250, 250)";
+    ctx.font = "16px Helvetica";
+    ctx.textAlign = "left";
+    if(monstersCaught>-1 && monstersCaught <5){
     if (bgReady) {
         ctx.drawImage(bgImage, 0, 0);
     }
@@ -147,13 +168,53 @@ var render = function () {
         ctx.drawImage(sImage2, tree2.x, tree2.y);
         ctx.drawImage(sImage3, tree3.x, tree3.y);
     }
+    ctx.fillText("Total Points: " + monstersCaught, 4, 4);
+
+        switch (monstersCaught){
+            case 0:
+                if(healthReady){
+                    ctx.drawImage(noHealth,110,4);
+                }
+            break;
+            case 1:
+            case 2:
+                if(healthReady){
+                    ctx.drawImage(lowHealth,110,6);
+                }
+            break;
+
+            case 3:
+            case 4:
+                if(healthReady){
+                    ctx.drawImage(healthy,110,6);
+                }
+            break;
 
 
-    ctx.fillStyle = "rgb(250, 250, 250)";
-    ctx.font = "16px Helvetica";
-    ctx.textAlign = "left";
-    ctx.textBaseline = "top";
-    ctx.fillText("Goblins caught: " + monstersCaught, 4, 4);
+        break;
+
+
+
+        
+            
+        }
+    }else if(monstersCaught==5){
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        if (bgReady) {
+            ctx.drawImage(bgImage, 0, 0);
+        }
+        
+        ctx.fillText("You win. You are forever awesome.", 45, 125);
+    }
+    else{
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        if (bgReady) {
+            ctx.drawImage(bgImage, 0, 0);
+        }
+        ctx.fillText("Total Points: " + monstersCaught, 4, 4);
+
+        ctx.fillText("You lose, please don't cry! I'm sure you have other skills.", 45, 125);
+    }
 }
 
 //Reset the game when the player catches a monster or game starts
@@ -161,11 +222,19 @@ var reset = function () {
     hero.x = canvas.width / 2;
     hero.y = canvas.height / 2;
 
-//Place the monster somewhere on the screen randomly
-// but not in the hedges, Article in wrong, the 64 needs to be 
-// hedge 32 + hedge 32 + char 32 = 96
-    monster.x = 32 + (Math.random() * (canvas.width - 96));
-    monster.y = 32 + (Math.random() * (canvas.height - 96));
+    monster.x = 16 + (Math.random() * (canvas.width - 50));
+    monster.y = 16 + (Math.random() * (canvas.height - 50));
+
+    while((monster.x == 16 + tree1.x || monster.x == 16+ tree2.x || monster.x == 16+ tree3.x)|| (monster.y == 16 + tree1.y || monster.y == 16+ tree2.y|| monster.y == 16+ tree3.y)){
+
+        monster.x = 16 + (Math.random() * (canvas.width - 50));
+        monster.y = 16 + (Math.random() * (canvas.height - 50));
+        console.log("iran");
+    }
+};
+
+var clear = function () {
+    context.clearRect(0, 0, canvas.width, canvas.height);
 };
 
 
@@ -175,6 +244,7 @@ var main = function () {
     var delta = now - then;
     update(delta / 1000);
     render();
+
     then = now;
     //  Request to do this again ASAP
     requestAnimationFrame(main);
@@ -183,5 +253,6 @@ var main = function () {
 
 // Let's play this game!
 var then = Date.now();
-reset();
-main();  // call the main game loop.
+    reset();
+    main(); 
+
