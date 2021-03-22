@@ -84,7 +84,7 @@ scenoryArrayForCollision.push(tree1);
 scenoryArrayForCollision.push(tree2);
 scenoryArrayForCollision.push(tree3);
 
-var monstersCaught = 0;
+var monstersCaught = 1;
 
 
 
@@ -179,25 +179,27 @@ var render = function () {
         ctx.drawImage(sImage2, tree2.x, tree2.y);
         ctx.drawImage(sImage3, tree3.x, tree3.y);
     }
-    ctx.fillText("Total Points: " + monstersCaught, 4, 4);
+    ctx.fillText("Life: " + monstersCaught, 4, 4);
 
         switch (monstersCaught){
             case 0:
                 if(healthReady){
-                    ctx.drawImage(noHealth,140,3);
+                    ctx.fillText("Hit one more tree and you are a gonner!", 60, 4);
+                    ctx.drawImage(noHealth,350,3);
                 }
             break;
             case 1:
             case 2:
                 if(healthReady){
-                    ctx.drawImage(lowHealth,140,3);
+                    ctx.drawImage(lowHealth,100,3);
                 }
             break;
 
             case 3:
             case 4:
+                ctx.fillText("Almost to Valhalla!", 60, 4);
                 if(healthReady){
-                    ctx.drawImage(healthy,140,3);
+                    ctx.drawImage(healthy,200,3);
                 }
             break;
 
