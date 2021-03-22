@@ -1,12 +1,11 @@
-//1. Create the canvas
+
 var canvas = document.createElement("canvas");
 var ctx = canvas.getContext("2d");
 canvas.width = 512; //pixels
 canvas.height = 480; //pixels
 document.body.appendChild(canvas);
 
-//2. Load images
-// Background image
+
 var bgReady = false;
 var bgImage = new Image();
 bgImage.onload = function () {
@@ -96,9 +95,14 @@ var keysDown = {}; //object were we properties when keys go down
 // is down.  In our game loop, we will move the hero image if when
 // we go thru render, a key is down
 
+addEventListener("click",function(){
+    soundBack.play();
+});
+
 addEventListener("keydown", function (e) {
     //console.log(e.key + " down")
     keysDown[e.keyCode] = true;
+    soundBack.play();
 }, false);
 
 addEventListener("keyup", function (e) {
@@ -139,7 +143,6 @@ var update = function (modifier) {
         if (hero.x <= (scenoryArrayForCollision[i].x +10) && scenoryArrayForCollision[i].x <= (hero.x + 10) &&
         hero.y <= (scenoryArrayForCollision[i].y +10) && scenoryArrayForCollision[i].y <= (hero.y +10)) {
             soundTree.play();
-            console.log("collision!");
             --monstersCaught;
         reset();
 
@@ -156,7 +159,7 @@ var render = function () {
     ctx.fillStyle = "rgb(250, 250, 250)";
     ctx.font = "16px Helvetica";
     ctx.textAlign = "left";
-    soundBack.play();
+   
 
     if(monstersCaught>-1 && monstersCaught <5){
     if (bgReady) {
@@ -181,20 +184,20 @@ var render = function () {
         switch (monstersCaught){
             case 0:
                 if(healthReady){
-                    ctx.drawImage(noHealth,110,4);
+                    ctx.drawImage(noHealth,140,3);
                 }
             break;
             case 1:
             case 2:
                 if(healthReady){
-                    ctx.drawImage(lowHealth,110,6);
+                    ctx.drawImage(lowHealth,140,3);
                 }
             break;
 
             case 3:
             case 4:
                 if(healthReady){
-                    ctx.drawImage(healthy,110,6);
+                    ctx.drawImage(healthy,140,3);
                 }
             break;
 
@@ -220,8 +223,9 @@ var render = function () {
             ctx.drawImage(bgImage, 0, 0);
         }
         ctx.fillText("Total Points: " + monstersCaught, 4, 4);
+        ctx.drawImage(noHealth,110,6);
 
-        ctx.fillText("You lose, please don't cry! I'm sure you have other skills.", 45, 125);
+        ctx.fillText("You lose, please don't cry!", 20, 125);
     }
 }
 

@@ -25,6 +25,7 @@ canvas {
 	top: 50%; 
 	margin-left: -256px; 
 	margin-top: -240px; 
+    padding:2px;
 } 
 .credits{
     position: absolute;
