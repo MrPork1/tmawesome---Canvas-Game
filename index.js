@@ -30,10 +30,10 @@ monsterImage.onload = function () {
 };
 monsterImage.src = "images/monster.png";
 
-var healthReady = false;
-var noHealth = new Image();
-var lowHealth = new Image();
-var healthy = new Image();
+let healthReady = false;
+let noHealth = new Image();
+let lowHealth = new Image();
+let healthy = new Image();
 noHealth.onload = function () {
     healthReady = true;
 };
@@ -53,6 +53,9 @@ sImage1.src = "images/tree1.png";
 sImage2.src = "images/tree2.png";
 sImage3.src = "images/tree3.png";
 
+let soundHit = new sound("sounds/sword-attack.wav");
+let soundTree = new sound("sounds/shaken-bush.mp3");
+let soundBack = new sound("sounds/background.wav");
 
 // Game objects
 var hero = {
@@ -127,6 +130,7 @@ var update = function (modifier) {
             && hero.y <= (monster.y + 16)
             && monster.y <= (hero.y + 16)
         ) {
+            soundHit.play();
             ++monstersCaught;       // keep track of our “score”
             reset();       // start a new cycle
         }
@@ -134,6 +138,7 @@ var update = function (modifier) {
     for(let i = 0; i < scenoryArrayForCollision.length; i++) {
         if (hero.x <= (scenoryArrayForCollision[i].x +10) && scenoryArrayForCollision[i].x <= (hero.x + 10) &&
         hero.y <= (scenoryArrayForCollision[i].y +10) && scenoryArrayForCollision[i].y <= (hero.y +10)) {
+            soundTree.play();
             console.log("collision!");
             --monstersCaught;
         reset();
@@ -150,6 +155,8 @@ var render = function () {
     ctx.textBaseline = "top";  ctx.fillStyle = "rgb(250, 250, 250)";
     ctx.font = "16px Helvetica";
     ctx.textAlign = "left";
+    soundBack.play();
+
     if(monstersCaught>-1 && monstersCaught <5){
     if (bgReady) {
         ctx.drawImage(bgImage, 0, 0);
@@ -229,7 +236,7 @@ var reset = function () {
 
         monster.x = 16 + (Math.random() * (canvas.width - 50));
         monster.y = 16 + (Math.random() * (canvas.height - 50));
-        console.log("iran");
+        console.log("i ran");
     }
 };
 
@@ -255,4 +262,19 @@ var main = function () {
 var then = Date.now();
     reset();
     main(); 
+    
 
+    function sound(src) {
+        this.sound = document.createElement("audio");
+        this.sound.src = src;
+        this.sound.setAttribute("preload", "auto");
+        this.sound.setAttribute("controls", "none");
+        this.sound.style.display = "none";
+        document.body.appendChild(this.sound);
+        this.play = function(){
+          this.sound.play();
+        }
+        this.stop = function(){
+          this.sound.pause();
+        }
+      }
