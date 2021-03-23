@@ -55,6 +55,8 @@ sImage3.src = "images/tree3.png";
 let soundHit = new sound("sounds/sword-attack.wav");
 let soundTree = new sound("sounds/shaken-bush.mp3");
 let soundBack = new sound("sounds/background.wav");
+let soundWin = new sound("sounds/winning.mp3");
+let soundLose = new sound("sounds/you-lose.mp3");
 
 // Game objects
 var hero = {
@@ -103,6 +105,7 @@ addEventListener("keydown", function (e) {
     //console.log(e.key + " down")
     keysDown[e.keyCode] = true;
     soundBack.play();
+    e.preventDefault();
 }, false);
 
 addEventListener("keyup", function (e) {
@@ -218,7 +221,7 @@ var render = function () {
         if (bgReady) {
             ctx.drawImage(bgImage, 0, 0);
         }
-        
+        soundWin.play();
         ctx.fillText("You win. You are forever awesome.", 45, 125);
     }
     else{
@@ -229,6 +232,7 @@ var render = function () {
         ctx.fillText("Total Life: " + monstersCaught, 4, 4);
         ctx.drawImage(noHealth,455,3);
 
+        soundLose.play();
         ctx.fillText("You lose, please don't cry!", 20, 125);
     }
 }
@@ -245,7 +249,6 @@ var reset = function () {
     while ((monster.x <= tree1.x + 16 && (monster.x <= (monster.x + 16) && monster.y <= (tree1.y + 16) && tree1.y <= (monster.y + 16))) ||
     (monster.x <= tree2.x + 16 && (monster.x <= (monster.x + 16) && monster.y <= (tree2.y + 16) && tree2.y <= (monster.y + 16))) ||
     (monster.x <= tree3.x + 16 && (monster.x <= (monster.x + 16) && monster.y <= (tree3.y + 16) && tree3.y <= (monster.y + 16)))) {
-        console.log("collloison of tree and monster");
         monster.x = 16 + (Math.random() * (canvas.width - 50));
         monster.y = 16 + (Math.random() * (canvas.height - 50));
     };
