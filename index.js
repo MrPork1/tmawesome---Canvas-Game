@@ -221,6 +221,7 @@ var render = function () {
         if (bgReady) {
             ctx.drawImage(bgImage, 0, 0);
         }
+        soundBack.stop();
         soundWin.play();
         ctx.fillText("You win. You are forever awesome.", 45, 125);
     }
@@ -232,6 +233,7 @@ var render = function () {
         ctx.fillText("Total Life: " + monstersCaught, 4, 4);
         ctx.drawImage(noHealth,455,3);
 
+        soundBack.stop();
         soundLose.play();
         ctx.fillText("You lose, please don't cry!", 20, 125);
     }
