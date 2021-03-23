@@ -45,12 +45,16 @@ var scenoryReady = false;
 let sImage1 = new Image();
 let sImage2 = new Image();
 let sImage3 = new Image();
+let sImage4 = new Image();
+let sImage5 = new Image();
 sImage1.onload = function() {
     scenoryReady = true;
 }
 sImage1.src = "images/tree1.png";
 sImage2.src = "images/tree2.png";
 sImage3.src = "images/tree3.png";
+sImage4.src = "images/tree2.png";
+sImage5.src = "images/tree1.png";
 
 let soundHit = new sound("sounds/sword-attack.wav");
 let soundTree = new sound("sounds/shaken-bush.mp3");
@@ -79,12 +83,20 @@ let tree2 = {
 let tree3 = {
     x: 150, y: 150
 };
+let tree4 = {
+    x: 425, y: 167
+};
+let tree5 = {
+    x:123, y: 385
+};
 
 let scenoryArrayForCollision = [];
 
 scenoryArrayForCollision.push(tree1);
 scenoryArrayForCollision.push(tree2);
 scenoryArrayForCollision.push(tree3);
+scenoryArrayForCollision.push(tree4);
+scenoryArrayForCollision.push(tree5);
 
 var monstersCaught = 1;
 
@@ -148,8 +160,6 @@ var update = function (modifier) {
             soundTree.play();
             --monstersCaught;
         reset();
-
-            
         }
     }
 };
@@ -181,6 +191,8 @@ var render = function () {
         ctx.drawImage(sImage1, tree1.x, tree1.y);
         ctx.drawImage(sImage2, tree2.x, tree2.y);
         ctx.drawImage(sImage3, tree3.x, tree3.y);
+        ctx.drawImage(sImage4, tree4.x, tree4.y);
+        ctx.drawImage(sImage5, tree5.x, tree5.y);
     }
     ctx.fillText("Life: " + monstersCaught, 4, 4);
 
@@ -247,10 +259,12 @@ var reset = function () {
     monster.x = 16 + (Math.random() * (canvas.width - 50));
     monster.y = 16 + (Math.random() * (canvas.height - 50));
 
-
-    while ((monster.x <= tree1.x + 16 && (monster.x <= (monster.x + 16) && monster.y <= (tree1.y + 16) && tree1.y <= (monster.y + 16))) ||
-    (monster.x <= tree2.x + 16 && (monster.x <= (monster.x + 16) && monster.y <= (tree2.y + 16) && tree2.y <= (monster.y + 16))) ||
-    (monster.x <= tree3.x + 16 && (monster.x <= (monster.x + 16) && monster.y <= (tree3.y + 16) && tree3.y <= (monster.y + 16)))) {
+    while ((monster.x <= tree1.x + 16 && (tree1.x <= (monster.x + 16) && monster.y <= (tree1.y + 16) && tree1.y <= (monster.y + 16))) ||
+    (monster.x <= tree2.x + 16 && (tree2.x <= (monster.x + 16) && monster.y <= (tree2.y + 16) && tree2.y <= (monster.y + 16))) ||
+    (monster.x <= tree3.x + 16 && (tree3.x <= (monster.x + 16) && monster.y <= (tree3.y + 16) && tree3.y <= (monster.y + 16))) || 
+    (monster.x <= tree4.x + 16 && (tree4.x <= (monster.x + 16) && monster.y <= (tree4.y + 16) && tree4.y <= (monster.y + 16))) ||
+    (monster.x <= tree5.x + 16 && (tree5.x <= (monster.x + 16) && monster.y <= (tree5.y + 16) && tree5.y <= (monster.y + 16)))) {
+        console.log("collosion detected!");
         monster.x = 16 + (Math.random() * (canvas.width - 50));
         monster.y = 16 + (Math.random() * (canvas.height - 50));
     };
