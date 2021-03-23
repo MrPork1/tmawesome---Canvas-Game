@@ -184,22 +184,24 @@ var render = function () {
         switch (monstersCaught){
             case 0:
                 if(healthReady){
-                    ctx.fillText("Hit one more tree and you are a gonner!", 60, 4);
-                    ctx.drawImage(noHealth,350,3);
+                    ctx.fillText("Hit one more tree and you are a gonner!", 65, 4);
+                    ctx.drawImage(noHealth,455,3);
                 }
             break;
             case 1:
             case 2:
                 if(healthReady){
-                    ctx.drawImage(lowHealth,100,3);
+                    ctx.textAlign = "right";
+                    ctx.drawImage(lowHealth,455,3);
                 }
             break;
 
             case 3:
             case 4:
-                ctx.fillText("Almost to Valhalla!", 60, 4);
+                //ctx.textAlign = "center";
+                ctx.fillText("Almost to Valhalla!", 100, 4);
                 if(healthReady){
-                    ctx.drawImage(healthy,200,3);
+                    ctx.drawImage(healthy,455,3);
                 }
             break;
 
@@ -224,8 +226,8 @@ var render = function () {
         if (bgReady) {
             ctx.drawImage(bgImage, 0, 0);
         }
-        ctx.fillText("Total Points: " + monstersCaught, 4, 4);
-        ctx.drawImage(noHealth,110,6);
+        ctx.fillText("Total Life: " + monstersCaught, 4, 4);
+        ctx.drawImage(noHealth,455,3);
 
         ctx.fillText("You lose, please don't cry!", 20, 125);
     }
@@ -239,12 +241,14 @@ var reset = function () {
     monster.x = 16 + (Math.random() * (canvas.width - 50));
     monster.y = 16 + (Math.random() * (canvas.height - 50));
 
-    while((monster.x == 16 + tree1.x || monster.x == 16+ tree2.x || monster.x == 16+ tree3.x)|| (monster.y == 16 + tree1.y || monster.y == 16+ tree2.y|| monster.y == 16+ tree3.y)){
 
+    while ((monster.x <= tree1.x + 16 && (monster.x <= (monster.x + 16) && monster.y <= (tree1.y + 16) && tree1.y <= (monster.y + 16))) ||
+    (monster.x <= tree2.x + 16 && (monster.x <= (monster.x + 16) && monster.y <= (tree2.y + 16) && tree2.y <= (monster.y + 16))) ||
+    (monster.x <= tree3.x + 16 && (monster.x <= (monster.x + 16) && monster.y <= (tree3.y + 16) && tree3.y <= (monster.y + 16)))) {
+        console.log("collloison of tree and monster");
         monster.x = 16 + (Math.random() * (canvas.width - 50));
         monster.y = 16 + (Math.random() * (canvas.height - 50));
-        console.log("i ran");
-    }
+    };
 };
 
 var clear = function () {
