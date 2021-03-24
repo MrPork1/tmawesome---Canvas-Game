@@ -56,7 +56,7 @@ sImage3.src = "images/tree3.png";
 sImage4.src = "images/tree2.png";
 sImage5.src = "images/tree1.png";
 
-let soundHit = new sound("sounds/sword-attack.wav");
+let soundHit = new sound("sounds/sword-attack.mp3");
 let soundTree = new sound("sounds/shaken-bush.mp3");
 let soundBack = new sound("sounds/background.wav");
 let soundWin = new sound("sounds/winning.mp3");
